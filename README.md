@@ -1,3 +1,10 @@
+---
+title: Mpamboly MLOps
+colorFrom: green
+colorTo: blue
+sdk: docker
+app_port: 8000
+---
 # MpambolyMivoatry : pipeline MLOps (irrigation intelligente)
 
 Données **simulées** : à remplacer par les mesures réelles du pilote.
