@@ -2,17 +2,19 @@
 import joblib
 import pandas as pd
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-
+ 
 FEATURES = [
     "culture", "soil_moisture_pct", "air_temp_c", "air_humidity_pct",
     "solar_radiation_wm2", "rainfall_mm", "hour",
 ]
-
+ 
 app = FastAPI(title="MpambolyMivoatry - API irrigation")
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 model = joblib.load("models/model.pkl")
-
-
+ 
+ 
 class Mesure(BaseModel):
     culture: str = Field(examples=["tomate"])
     soil_moisture_pct: float = Field(ge=0, le=100)
@@ -21,13 +23,13 @@ class Mesure(BaseModel):
     solar_radiation_wm2: float = Field(ge=0)
     rainfall_mm: float = Field(ge=0)
     hour: int = Field(ge=0, le=23)
-
-
+ 
+ 
 @app.get("/health")
 def health():
     return {"status": "ok"}
-
-
+ 
+ 
 @app.post("/predict")
 def predict(m: Mesure):
     X = pd.DataFrame([m.model_dump()])[FEATURES]
