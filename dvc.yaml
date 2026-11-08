@@ -1,0 +1,21 @@
+stages:
+  generate:
+    cmd: python generate_data.py
+    deps:
+      - generate_data.py
+    outs:
+      - data/irrigation_reference.csv
+      - data/irrigation_drift.csv
+  train:
+    cmd: python train.py
+    deps:
+      - train.py
+      - common.py
+      - data/irrigation_reference.csv
+    params:
+      - train
+    outs:
+      - models/model.pkl
+    metrics:
+      - metrics.json:
+          cache: false

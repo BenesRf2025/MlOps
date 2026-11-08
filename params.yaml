@@ -1,0 +1,5 @@
+train:
+  n_estimators: 200
+  max_depth: 8
+  test_size: 0.2
+  seed: 42
